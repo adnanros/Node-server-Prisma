@@ -1,0 +1,14 @@
+{
+  "name": "labpro-server",
+  "version": "1.0.0",
+  "description": "An alternative server",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Adnan Ros",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
