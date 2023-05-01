@@ -7,7 +7,7 @@ const {login, register} = require('./controllers/AuthController')
 
 
 app.get('/', (req,res)=>{
-    res.send('Initialize Project');
+    res.status(200).send('Hi from the base route');
 });
 
 app.post('/register', register);

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "npm test"
+    "test": "jest --watchAll"
   },
   "author": "Adnan Ros",
   "license": "ISC",
