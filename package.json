@@ -4,6 +4,8 @@
   "description": "An alternative server",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "npm test"
   },
   "author": "Adnan Ros",
@@ -16,6 +18,9 @@
     "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
+    "axios": "^1.4.0",
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22",
     "prisma": "^4.13.0"
   }
 }
