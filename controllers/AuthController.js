@@ -29,7 +29,6 @@ const login = async(req, res)=>{
 
     user.token = token;
     res.status(201).json({
-        name: user.name,
         email: user.email,
         token: user.token
     })
@@ -38,8 +37,9 @@ const login = async(req, res)=>{
 
 const register = async (req, res)=>{
     try {
-        const {name, email, password } = req.body;
-        if(!(name && email && password)){
+        console.log('aaaaaaaaaaa', req.body);
+        const { email, password } = req.body;
+        if(!(email && password)){
             res.status(400).send('All input is required');
         }
         
@@ -58,7 +58,6 @@ const register = async (req, res)=>{
           const encryptedPassword = await bcrypt.hash(password, 3);
           const user = await prisma.user.create({
             data: {
-                name,
                 email: email.toLowerCase(),
                 password: encryptedPassword,
                 userGroup: 'user'
