@@ -13,5 +13,82 @@ model User {
   password String
   name String?
   token String?
-  userGroup String
+  role Role
+  orders Order[]
+  profile Profile? // check one-to=one relationship
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  user User? @relation(fields: [userId], references: [id])
+  userId Int?
+  purchasedDate DateTime
+  samplingDate DateTime
+  resultDate DateTime
+  orderStatus String
+  paymentStatus String
+}
+
+model Profile {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique // It doesn't work without unique flag
+  addressPart1 String
+  addressPart2 String
+  contactNumber Decimal // Need to check
+  profileImageLink String
+  country String
+  city String
+  postalCode String
+  company String
+}
+
+model SampleCategory {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+}
+
+model TestGroup {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+}
+
+model TestPack {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+}
+
+model ChemicalAnalysis {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  price String
+  discount String
+}
+
+model Chemical {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+}
+
+model ImpactCategory {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+}
+
+model Impact {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  iconLink String?
 }
