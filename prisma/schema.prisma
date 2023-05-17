@@ -25,8 +25,8 @@ enum Role {
 
 model Order {
   id Int @id @default(autoincrement())
-  user User? @relation(fields: [userId], references: [id])
-  userId Int?
+  user User @relation(fields: [userId], references: [id]) // an order must have a user
+  userId Int // an order must have a user
   purchasedDate DateTime
   samplingDate DateTime
   resultDate DateTime
@@ -36,7 +36,7 @@ model Order {
 
 model Profile {
   id Int @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id]) // a profile must have a user
   userId Int @unique // It doesn't work without unique flag
   addressPart1 String
   addressPart2 String
@@ -52,18 +52,30 @@ model SampleCategory {
   id Int @id @default(autoincrement())
   name String
   description String
+  testGroups TestGroup[]
 }
 
 model TestGroup {
   id Int @id @default(autoincrement())
   name String
   description String
+  sampleCategory SampleCategory @relation(fields: [sampleCategoryId], references: [id])
+  sampleCategoryId Int
+  testPacks TestGroupsOnTestPacks[]
 }
 
+model TestGroupsOnTestPacks {
+  testGroup TestGroup @relation(fields: [testGroupId], references: [id])
+  testGroupId Int
+  testPack TestPack @relation(fields: [testPackId], references: [id])
+  testPackId Int
+  @@id([testGroupId, testPackId])
+}
 model TestPack {
   id Int @id @default(autoincrement())
   name String
   description String
+  testGroups TestGroupsOnTestPacks[]
 }
 
 model ChemicalAnalysis {
