@@ -32,7 +32,9 @@ model Order {
   resultDate DateTime
   orderStatus String
   paymentStatus String
-}
+  chemicalsOnChemicalAnalyses Results[] // Results is a relation model between Order and ChemicalsOnChemicalAnalyses
+  chemicalAnalyses ChemicalAnalysesOnOrders[] // Redundant Data for Reports
+  }
 
 model Profile {
   id Int @id @default(autoincrement())
@@ -61,10 +63,10 @@ model TestGroup {
   description String
   sampleCategory SampleCategory @relation(fields: [sampleCategoryId], references: [id])
   sampleCategoryId Int
-  testPacks TestGroupsOnTestPacks[]
+  testPacks TestPacksOnTestGroups[]
 }
 
-model TestGroupsOnTestPacks {
+model TestPacksOnTestGroups {
   testGroup TestGroup @relation(fields: [testGroupId], references: [id])
   testGroupId Int
   testPack TestPack @relation(fields: [testPackId], references: [id])
@@ -75,27 +77,68 @@ model TestPack {
   id Int @id @default(autoincrement())
   name String
   description String
-  testGroups TestGroupsOnTestPacks[]
+  testGroups TestPacksOnTestGroups[]
+  chemicalAnalyses ChemicalAnalysesOnTestPacks []
 }
 
+model ChemicalAnalysesOnTestPacks {
+  testPack TestPack @relation(fields: [testPackId], references: [id])
+  testPackId Int
+  chemicalAnalysis ChemicalAnalysis @relation(fields: [chemicalAnalysisId], references: [id])
+  chemicalAnalysisId Int
+  @@id([testPackId, chemicalAnalysisId])
+
+}
 model ChemicalAnalysis {
   id Int @id @default(autoincrement())
   name String
   description String
   price String
   discount String
+  testPacks ChemicalAnalysesOnTestPacks[]
+  chemicals ChemicalsOnChemicalAnalyses[]
+  orders ChemicalAnalysesOnOrders[] // Redundant Data for Reports
 }
 
 model Chemical {
   id Int @id @default(autoincrement())
   name String
   description String
+  chemicalAnalyses ChemicalsOnChemicalAnalyses[] 
+}
+model ChemicalsOnChemicalAnalyses {
+  id Int @id @default(autoincrement())
+  chemicalAnalysis ChemicalAnalysis @relation(fields: [chemicalAnalysisId], references: [id])
+  chemicalAnalysisId Int
+  chemical Chemical @relation(fields: [chemicalId], references: [id])
+  chemicalId Int 
+  orders Results[] // Results is a relation model between Order and ChemicalsOnChemicalAnalyses
+  //@@id([chemicalAnalysisId, chemicalId])
+}
+
+model Results {
+  order Order @relation(fields: [orderId], references: [id])
+  orderId Int
+  chemicalsOnChemicalAnalyses ChemicalsOnChemicalAnalyses @relation(fields: [chemicalsOnChemicalAnalysesId], references: [id])
+  chemicalsOnChemicalAnalysesId Int
+  detection Float @default(0)
+  @@id([orderId, chemicalsOnChemicalAnalysesId])
+}
+
+// Redundant Data for Reports
+model ChemicalAnalysesOnOrders { // Redundant Data for Reports
+  order Order @relation(fields: [orderId], references: [id])
+  orderId Int 
+  chemicalAnalysis ChemicalAnalysis @relation(fields: [chemicalAnalysisId], references: [id])
+  chemicalAnalysisId Int
+  @@id([orderId, chemicalAnalysisId])
 }
 
 model ImpactCategory {
   id Int @id @default(autoincrement())
   name String
   description String
+  impacts Impact[]
 }
 
 model Impact {
@@ -103,4 +146,6 @@ model Impact {
   name String
   description String
   iconLink String?
+  impactCategory ImpactCategory @relation(fields: [impactCategoryId], references: [id])
+  impactCategoryId Int
 }
