@@ -105,6 +105,7 @@ model Chemical {
   name String
   description String
   chemicalAnalyses ChemicalsOnChemicalAnalyses[] 
+  impacts ImpactsOnChemicals[]
 }
 model ChemicalsOnChemicalAnalyses {
   id Int @id @default(autoincrement())
@@ -148,4 +149,14 @@ model Impact {
   iconLink String?
   impactCategory ImpactCategory @relation(fields: [impactCategoryId], references: [id])
   impactCategoryId Int
+  chemicals ImpactsOnChemicals[]
+}
+
+model ImpactsOnChemicals {
+  id Int @id @default(autoincrement())
+  impact Impact @relation(fields: [impactId], references: [id])
+  impactId Int
+  chemical Chemical @relation(fields: [chemicalId], references: [id])
+  chemicalId Int
+  dose Float @default(0)
 }
