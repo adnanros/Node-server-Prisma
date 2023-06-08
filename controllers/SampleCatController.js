@@ -13,5 +13,13 @@ const store = async (req, res) => {
     res.status(201).send(sampleCategory);
 }
 
+const findById = async (req, res) => {
+    // console.log('req.query',req.params);
+     const id = Number(req.params.id);
+     const category = await prisma.sampleCategory.findUnique({where:{id: id}});
+     res.status(201).send(category);
+}
+
 module.exports.store = store;
 module.exports.index = index;
+module.exports.findById = findById;
