@@ -16,9 +16,13 @@ app.get('/', (req,res)=>{
 app.post('/register', register);
 app.post('/login', login);
 
+
 app.post('/admin/sampleCategory', sampleCategory.store);
+app.patch('/admin/sampleCategory/edit', sampleCategory.edit);
 app.get('/admin/sampleCategory/:id', sampleCategory.findById);
 app.get('/admin/sampleCategory', sampleCategory.index);
+app.delete('/admin/sampleCategory/:id', sampleCategory.remove);
+
 app.post('/admin/testGroup', testGroup.store);
 app.get('/admin/testGroup/:id', testGroup.findById);
 app.get('/admin/testGroup/bySampleCategoryId/:id', testGroup.findBySampleCategoryId);
