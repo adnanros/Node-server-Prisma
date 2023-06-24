@@ -7,6 +7,7 @@ app.use(express.json());
 const {login, register} = require('./controllers/AuthController');
 const sampleCategory = require('./controllers/SampleCatController');
 const testGroup = require('./controllers/TestGroupController');
+const testPack = require('./controllers/TestPackController');
 
 
 app.get('/', (req,res)=>{
@@ -29,6 +30,13 @@ app.get('/admin/testGroup/:id', testGroup.findById);
 app.get('/admin/testGroup/bySampleCategoryId/:id', testGroup.findBySampleCategoryId);
 app.get('/admin/testGroup', testGroup.index);
 app.delete('/admin/testGroup/:id', testGroup.remove);
+
+app.post('/admin/testPack', testPack.store);
+app.patch('/admin/testPack/edit', testPack.edit);
+app.get('/admin/testPack/:id', testPack.findById);
+app.get('/admin/testPack', testPack.index);
+app.delete('/admin/testPack/:id', testPack.remove);
+
 
 
 
