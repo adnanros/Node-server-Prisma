@@ -29,8 +29,32 @@ const findBySampleCategoryId = async(req, res) => {
     res.status(200).send(testGroups);
 }
 
+const edit = async (req, res) => {
+    const {id, sampleCategoryId, name, description} = req.body;
+    const updateTestGroup = await prisma.testGroup.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            name: name, 
+            description: description,
+            sampleCategoryId: Number(sampleCategoryId)
+        }
+    });
+    res.status(201).send(updateTestGroup);
+
+}
+
+const remove = async (req, res) => {
+    const deleteTestGroup = await prisma.testGroup.delete({
+        where: {id: Number(req.params.id)}
+    });
+    res.status(201).send(deleteTestGroup);
+}
 
 module.exports.store = store;
+module.exports.edit = edit;
+module.exports.remove = remove;
 module.exports.index = index;
 module.exports.findById = findById;
 module.exports.findBySampleCategoryId = findBySampleCategoryId;

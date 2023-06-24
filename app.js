@@ -24,9 +24,11 @@ app.get('/admin/sampleCategory', sampleCategory.index);
 app.delete('/admin/sampleCategory/:id', sampleCategory.remove);
 
 app.post('/admin/testGroup', testGroup.store);
+app.patch('/admin/testGroup/edit', testGroup.edit);
 app.get('/admin/testGroup/:id', testGroup.findById);
 app.get('/admin/testGroup/bySampleCategoryId/:id', testGroup.findBySampleCategoryId);
 app.get('/admin/testGroup', testGroup.index);
+app.delete('/admin/testGroup/:id', testGroup.remove);
 
 
 
