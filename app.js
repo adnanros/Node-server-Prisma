@@ -8,6 +8,7 @@ const {login, register} = require('./controllers/AuthController');
 const sampleCategory = require('./controllers/SampleCatController');
 const testGroup = require('./controllers/TestGroupController');
 const testPack = require('./controllers/TestPackController');
+const testPacksOnTestGroups = require('./controllers/TestPacksOnTestGroupsController');
 
 
 app.get('/', (req,res)=>{
@@ -37,6 +38,12 @@ app.get('/admin/testPack/:id', testPack.findById);
 app.get('/admin/testPack', testPack.index);
 app.delete('/admin/testPack/:id', testPack.remove);
 
+app.post('/admin/testPacksOnTestGroups', testPacksOnTestGroups.store);
+app.patch('/admin/testPacksOnTestGroups/edit', testPacksOnTestGroups.edit);
+app.get('/admin/testPacksOnTestGroups/testPackId/:testPackId', testPacksOnTestGroups.findByTestPackId);
+app.get('/admin/testPacksOnTestGroups/testGroupId/:testGroupId', testPacksOnTestGroups.findByTestGroupId);
+app.get('/admin/testPacksOnTestGroups', testPacksOnTestGroups.index);
+app.delete('/admin/testPacksOnTestGroups', testPacksOnTestGroups.remove);
 
 
 
